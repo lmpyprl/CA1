@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Movies>
+    <Movie id="0">
+        <Title>Banshees of Iniseerin</Title>
+        <Year>2022</Year>
+        <Actors>Colin Farrell, Brendan Gleeson</Actors>
+        <synopsis>A pair of lifelong friends on a remote Irish island find
+         themselves at an awkward time in their relationship when one of 
+         them no longer wants to be friends.</synopsis> 
+         <trailer>https://www.youtube.com/embed/uRu3zLOJN2c</trailer>        
+    </Movie>
+    <Movie id="1">
+        <Title>Everything, Everywhere, All at Once</Title>
+        <Year>2022</Year>
+        <Actors>Michelle Yeoh</Actors>
+        <synopsis>A middle-aged Chinese immigrant is swept up into an insane 
+            adventure in which she alone can save existence by exploring 
+            other universes and connecting with the lives she could have 
+            led.</synopsis>
+        <trailer>https://www.youtube.com/embed/wxN1T1uxQ2g</trailer>
+    </Movie>
+    <Movie id="2">
+        <Title>A Man Called Otto</Title>
+        <Year>2022</Year>
+        <Actors>Tom Hanks</Actors>
+        <synopsis>Otto is a grump who's given up on life 
+        following the loss of his wife and wants to end it all. 
+        When a young family moves in nearby, he meets his match in
+         quick-witted Marisol, leading to a friendship that will turn 
+         his world around.</synopsis>
+         <trailer>https://www.youtube.com/embed/eFYUX9l-m5I</trailer>  
+    </Movie>
+    <Movie id="3">
+        <Title>Ant Man: Quantumania</Title>
+        <Year>2022</Year>
+        <Actors>Paul Rudd</Actors>
+        <synopsis>Scott Lang and Hope Van Dyne, along with Hank Pym and Janet
+         Van Dyne, explore the Quantum Realm, where they interact with strange
+          creatures and embark on an adventure that goes beyond the limits of 
+          what they thought was possible.</synopsis>
+          <trailer>https://www.youtube.com/embed/5WfTEZJnv_8</trailer>  
+    </Movie>
+    <Movie id="4">
+        <Title>Creed 3</Title>
+        <Year>2022</Year>
+        <Actors>Michael B Jordan</Actors>
+        <synopsis>Adonis has been thriving in both his career and family life, 
+        but when a childhood friend and former boxing prodigy resurfaces, 
+        the face-off is more than just a fight.</synopsis>
+        <trailer>https://www.youtube.com/embed/AHmCH7iB_IM</trailer>  
+    </Movie>    
+</Movies>
+

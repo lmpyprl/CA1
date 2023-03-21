@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reads XML using Javascript</title>
+
+    <style>
+        table{
+            color: white;
+            display: inline-table;
+        }
+        table,th,td {
+            border-collapse: collapse;
+        }
+        th,td {
+            padding: 5px;
+        }
+
+        .table-container{
+            text-align: center;
+        }
+        h2{
+            color: white;
+        }
+    </style>
+    
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body>
+    <!-- Div container for the navbar -->
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="logo-container"><h1 class="logo">Cinema</h1></div>
+
+            <div class = "menu-container">
+                <ul class = "menu-list">
+                    <li class = "menu-list-item">Home</li>
+                    <li class = "menu-list-item"><a href = "listings.html">Listings</a></li>
+                    <li class = "menu-list-item">Contact Us</li>                
+                </ul>                
+            </div>
+
+        </div>   
+    </div> 
+
+    <!-- Div container for the main body of the page -->
+    <div class="body-container"></div>
+    
+        
+        <Center><h2>Currently Showing</h2>  
+        <input type="text" id="myInput" 
+        onkeyup="filterTable()" placeholder="Search.."></Center>
+        <div class = "table-container">            
+            <table id="demo"><td></td></table>
+        </div>
+    </div>
+
+
+
+    <script>
+        //code for creating an XML request and calling a function         
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                readXML(this);
+             }
+            };
+        xhttp.open("GET", "movies.xml", true);
+        xhttp.send();
+        
+        
+        //function that reads from an XML page
+        //declares a string containing table markup and appends by reading from XML file
+        function readXML(xml){
+            //variable declaration
+            var i;
+            var xmlDoc = xml.responseXML;
+            var table="<tr><th>Title</th><th>Year</th><th>Starring</th></tr>";
+            var x = xmlDoc.getElementsByTagName("Movie");
+            
+            //loop that populates using required XML elements
+            //creates a clickable link using id number and standard url
+            for (i = 0; i <x.length; i++) { 
+                var movieId = x[i].getAttribute("id");
+                table += "<tr><td>" + "<a href = movie.html?" + movieId + ">" + 
+                x[i].getElementsByTagName("Title")[0].childNodes[0].nodeValue +
+                "</td><td>" +
+                x[i].getElementsByTagName("Year")[0].childNodes[0].nodeValue +
+                "</td><td>" +
+                x[i].getElementsByTagName("Actors")[0].childNodes[0].nodeValue +
+                "</td></tr>";
+            }
+
+            //writes the appended string to the table
+            document.getElementById("demo").innerHTML = table;
+            
+        }
+        
+    
+            //function that filters the table on keychange
+            function filterTable(keyup){
+
+                //captures text from search box and declares table to be filtered
+                var filter = event.target.value.toUpperCase();               
+                var rows = document.querySelector("#demo tbody").rows;
+
+                //for loop iterates through table and hides non matching rows
+                for (var i = 0; i < rows.length; i++) {
+                    var titleCol = rows[i].cells[0].textContent.toUpperCase();
+                    var yearCol = rows[i].cells[1].textContent.toUpperCase();
+                    var starCol = rows[i].cells[2].textContent.toUpperCase();
+                    if (titleCol.indexOf(filter) > -1 || yearCol.indexOf(filter) > -1 || starCol.indexOf(filter) > -1) {
+                        rows[0].style.display = "" 
+                        rows[i].style.display = "";
+                    } else {
+                        rows[0].style.display = "" 
+                        rows[i].style.display = "none";
+                    }      
+                }
+            }
+
+            //listener for the input in text box that calls filter function
+            document.querySelector('#myInput').addEventListener('keyup', filterTable, false);
+    
+    </script>
+</body>
+
+
+</html>

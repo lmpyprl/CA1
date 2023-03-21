@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    <title>Document</title>
+</head>
+
+
+<body>
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="logo-container"><h1 class="logo">Cinema</h1></div>
+
+            <div class = "menu-container">
+                <ul class = "menu-list">
+                    <li class = "menu-list-item">Home</li>
+                    <li class = "menu-list-item">Listings</li>
+                    <li class = "menu-list-item">Contact Us</li>                
+                </ul>                
+            </div>
+
+            
+
+        </div>   
+    </div> 
+
+
+    <div class="body-container">
+
+        <div class = "main-body">
+            <div class="gallery-container">
+                <figure>
+                    <img id="mainImg" src="img/img1.jpg">
+                </figure>
+                <ul class = "gallery-elements">
+                    <li id = "gallery-element"><img src="img/img1.jpg"></li>
+                    <li id = "gallery-element"><img src="img/img2.jpg"></li>            
+                </ul>
+            </div>
+
+            <div class="synopsis-booking">
+                <div class="synopsis">A pair of lifelong friends on a remote Irish
+                island find themselves at an awkward time in their 
+                relationship when one of them no longer wants to be friends.</div>
+
+                <div class="bookingButton"><button onclick="showBooking()">Book Ticket</button></div>
+            </div>
+        </div>
+         
+        <div class = "trailer-container">
+            <center><iframe id = "trailer"  src="https://www.youtube.com/embed/uRu3zLOJN2c" title="YouTube video player" 
+                 frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        
+        <div id="booking-form">
+                <h1 margin = 0px>Booking</h1>                
+                <button onclick="hideBooking()">Close</button>
+        </div> 
+    </div>
+
+    
+
+            
+    
+</body>
+
+
+<script>
+
+
+    function listingsFunction() {
+    document.getElementById("listings-dropdown").classList.toggle("show");
+    }
+
+    $(document).ready(function () {
+            $('ul img').on({
+                    mouseover: function () {
+                            $(this).css({
+                                    'opacity': 1,
+                            });
+                    },
+                    mouseout: function () {
+                            $(this).css({
+                                    'opacity': 0.4
+                            });
+                    },
+                    click: function () {
+                            var imageURL = $(this).attr('src');
+                            $('#mainImg').fadeOut(500, function () {
+                                    $(this).attr('src', imageURL);
+                            }).fadeIn(500);
+                    }
+            });
+    });
+
+    function showBooking(){
+        alert("bookingpopup");
+        document.getElementById("booking-form").style.display = "block";        
+        
+    }
+
+    function hideBooking(){
+        document.getElementById("booking-form").style.display = "none";
+    }
+</script>
+</html>

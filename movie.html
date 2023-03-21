@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    <title>Document</title>
+
+    <style>
+        /*styling for the close button on the booking form
+        positions it at top right of the form*/
+        #close_booking{
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        }
+
+        .gallery-container{  
+            max-width: 540px;  
+            position: relative;
+            height: 100%;
+            float: left;
+            flex: 1;  
+            position: relative;
+            padding: 10px;
+            margin: auto;
+                       
+        }
+
+        .slide{
+            display: none;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .slide img{
+            object-fit: contain;
+            height: 540px;
+            width: 540px;
+        }
+
+        .btn-prev, .btn-next{
+            cursor: pointer;
+            position: absolute;
+            top: 50%;           
+            width: auto;
+            margin-top: -22px;
+            padding: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.5s ease;         
+            background-color: transparent; 
+            border: none;         
+        }
+
+        .btn-prev {
+            top: 45%;
+            left: 2%;
+        }
+        .btn-next {
+            top: 45%;
+            right: 0;
+        }
+
+        .btn-prev:hover, .btn-next:hover {
+            
+            background-color: grey;
+        }
+
+        .trailer-container{
+            text-align: center;
+            max-width: 100%;
+        }
+
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+
+    </style>
+
+    <script>
+        window.onload = function() {
+          createSlides();
+          let slideIndex = 1;
+        showSlides(slideIndex);
+        };
+    </script>    
+</head>
+
+
+<body>
+    <!-- Div for the top navbar, contains logo and menu items-->
+    <div class="navbar">
+        <div class="navbar-container">
+            <div class="logo-container"><h1 class="logo">Cinema</h1></div>
+
+            <div class = "menu-container">
+                <ul class = "menu-list">
+                    <li class = "menu-list-item">Home</li>
+                    <li class = "menu-list-item"><a href = "listings.html">Listings</a></li>
+                    <li class = "menu-list-item">Contact Us</li>                
+                </ul>                
+            </div>
+
+        </div>   
+    </div> 
+
+    <!-- Div for main body, contains div for image gallery, Info/Button and trailer div underneath -->
+    <div class="body-container">
+        <div class = "main-body">
+
+            <div class="gallery-container">
+                
+            </div>
+
+            <div class="synopsis-booking">
+                <h2 id = "movie-title"></h2>
+                <div id="synopsis">
+                    
+                </div>
+
+                <div class="bookingButton"><button onclick="showBooking()">Book Ticket</button></div>
+            </div>
+        </div>
+         
+        <div class="trailer-container">                           
+            <iframe id = "trailer" width="560" height="315" title="YouTube video player" frameborder="0"  allowfullscreen></iframe>
+        </div>
+        
+
+
+        <!-- Div that contains the booking form shown when booking button is pushed -->
+        <div id="booking-form">
+                <h1 margin = 0px>Booking</h1>
+                <h2 id="booking-title"></h2>    
+                <form action="http://localhost/test/booking.php" method="post" name="bookform">
+                    <label>Tickets to Book</label>
+                    <select id='ticket_number' name="ticketnumber"onchange="calcCost()"></select>@ 8.95 each<br>
+                    <label>Booking Name</label>
+                    <input type="text" id="bookname" name="bookname"><br>
+                    <label>Email Address</label>
+                    <input type="text" id="email" name="email"><br>                                        
+                    <label>Booking Fee: 1.00</label><br>
+                    <label>Total cost: </label><label id = "labelcost">9.95</label><br>
+                    <input type="hidden" id="cost" value="1"/>
+                    <input type="datetime-local" id="book-time" name="book-time">
+                    <input type ="submit" value="Book">
+                    
+                </form>
+                
+                <button onclick="hideBooking()" id = 'close_booking'>X</button>
+        </div> 
+    </div>
+
+    
+
+            
+    
+</body>
+
+
+<script>
+
+
+function showSlides(n) {
+        let i;
+        slideIndex = n;
+        let slides = document.getElementsByClassName("slide");        
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        
+        slides[slideIndex-1].style.display = "block";
+        
+    } 
+
+    // Next/previous controls
+    function moveSlide(n) {
+        showSlides(slideIndex += n);
+    }
+
+    // Thumbnail image controls
+    function currentSlide(n) {
+    showSlides(slideIndex = n);
+    }
+
+    
+
+
+
+
+        //code that populates the select box for the amount of tickets with 1-10
+        var select = '';
+        for (i=1;i<=10;i++){
+            select += '<option val=' + i + '>' + i + '</option>'
+        }
+
+        $('#ticket_number').html(select);
+
+
+        //waits for ready and creates xhttp request for reading XML
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    readXML(this);
+             }
+        };
+
+        xhttp.open("GET", "movies.xml", true);
+        xhttp.send();
+        
+        
+        //reads the synopsis from the XML page and changes the synopsis to it
+        function readXML(xml){    
+            var v1 = window.location.search;
+            var lastChar = v1.substr(v1.length - 1);
+            var id = parseInt(lastChar);       
+            
+            
+            var xmlDoc = xml.responseXML;  
+
+
+            document.getElementsByClassName("slide").innerHTML
+
+            var x = xmlDoc.getElementsByTagName("synopsis")[id];
+            var y = x.childNodes[0];
+            document.getElementById("synopsis").innerHTML = y.nodeValue; 
+            
+            var x = xmlDoc.getElementsByTagName("trailer")[id];
+            var y = x.childNodes[0];
+            document.getElementById("trailer").src = y.nodeValue; 
+
+            var x = xmlDoc.getElementsByTagName("Title")[id];
+            var y = x.childNodes[0];
+            document.getElementById("booking-title").innerHTML = y.nodeValue; 
+            document.getElementById("movie-title").innerHTML = y.nodeValue;
+
+        }         
+        
+        function createSlides(){
+            var output = '';
+            var id = window.location.search.substr(1);
+            for (var i = 1; i <= 3; i++) {
+                output += `
+                <div class="slide fade">
+                <img src="img/${id}/${i}.jpg" alt="" />
+                 </div>
+                `;
+            }
+            output += '<button class="btn-next" onclick="moveSlide(-1)">></button>';
+            output += '<button class="btn-prev" onClick="moveSlide(1)"><</button>';
+
+            document.querySelector('.gallery-container').innerHTML = output;
+
+        }
+        
+
+
+
+    //javascript function that displays the booking form div
+    function showBooking(){        
+        document.getElementById("booking-form").style.display = "block";        
+        
+    }
+
+    //javascript function that hides the booking form div
+    function hideBooking(){
+        document.getElementById("booking-form").style.display = "none";
+    }
+
+    //javascript function that finds the total ticket cost and displays it
+    function calcCost(){        
+        var tickets = $("#ticket_number").val();
+        var total = parseFloat(tickets * 8.95 + 1).toFixed(2);
+        document.getElementById('labelcost').innerHTML = total;
+        document.getElementById('cost').setAttribute("value", total);
+        
+        
+    }
+
+    //function to validate email entries
+    function isValidEmail() {
+                const email = document.forms["bookform"]["email"].value; // Select form and input by name attribute, return the input value
+                const regex = /^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/;
+                 
+                return regex.test(email);
+                
+            }
+
+</script>
+
+
+</html>
