@@ -39,8 +39,8 @@ body{
 }
 
 .menu-list-item{
-    margin-right: 30px;
-    padding: 10px;
+    margin-right: 10px;
+    padding: 15px;
 }
 
 a:link{
@@ -53,7 +53,7 @@ a:visited {
 }
 
 .menu-list-item:hover {      
-    background-color: blue;
+    background-color: blue    ;
 }
 
 
@@ -75,7 +75,8 @@ a:visited {
     
 }
 
-.synopsis-booking{    
+.synopsis-booking{   
+    font-family:'Lucida Sans', sans-serif;
     Color: white;
     padding: 20px;
     padding-top: 50px;    
