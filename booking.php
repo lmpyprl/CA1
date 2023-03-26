@@ -2,7 +2,7 @@
 
 	$servername = "localhost"; 
 	$username = "root";
-	$password="saddos";
+	$password="";
 	$dbname = "test";
 
 	// Create connection
